@@ -436,7 +436,6 @@ export function ChatAction(props: {
       style={
         {
           "--icon-width": `${width.icon}px`,
-          "--2icon-width": `1.5*${width.icon}px`,
           "--full-width": `${width.full}px`,
         } as React.CSSProperties
       }
@@ -622,14 +621,13 @@ export function ChatActions(props: {
           />
         )}
 
-        {/*{showUploadImage && (*/}
-        {/*  <ChatAction*/}
-        {/*    onClick={props.uploadImage}*/}
-        {/*    text={Locale.Chat.InputActions.UploadImage}*/}
-        {/*    icon={props.uploading ? <LoadingButtonIcon /> : <ImageIcon />}*/}
-        {/*  />*/}
-        {/*)}*/}
-
+        {showUploadImage && (
+          <ChatAction
+            onClick={props.uploadImage}
+            text={Locale.Chat.InputActions.UploadImage}
+            icon={props.uploading ? <LoadingButtonIcon /> : <ImageIcon />}
+          />
+        )}
         <ChatAction
           onClick={nextTheme}
           text={Locale.Chat.InputActions.Theme[theme]}
@@ -646,23 +644,23 @@ export function ChatActions(props: {
           }
         />
 
-        {/*<ChatAction*/}
-        {/*  onClick={props.showPromptHints}*/}
-        {/*  text={Locale.Chat.InputActions.Prompt}*/}
-        {/*  icon={<PromptIcon />}*/}
-        {/*/>*/}
+        <ChatAction
+          onClick={props.showPromptHints}
+          text={Locale.Chat.InputActions.Prompt}
+          icon={<PromptIcon />}
+        />
 
-        {/*<ChatAction*/}
-        {/*  onClick={() => {*/}
-        {/*    navigate(Path.Masks);*/}
-        {/*  }}*/}
-        {/*  text={Locale.Chat.InputActions.Masks}*/}
-        {/*  icon={<MaskIcon />}*/}
-        {/*/>*/}
+        <ChatAction
+          onClick={() => {
+            navigate(Path.Masks);
+          }}
+          text={Locale.Chat.InputActions.Masks}
+          icon={<MaskIcon />}
+        />
 
         <ChatAction
           text={Locale.Chat.InputActions.Clear}
-          icon={<CloseIcon />}
+          icon={<BreakIcon />}
           onClick={() => {
             chatStore.updateTargetSession(session, (session) => {
               if (session.clearContextIndex === session.messages.length) {
@@ -797,35 +795,35 @@ export function ChatActions(props: {
           />
         )}
 
-        {/*{showPlugins(currentProviderName, currentModel) && (*/}
-        {/*  <ChatAction*/}
-        {/*    onClick={() => {*/}
-        {/*      if (pluginStore.getAll().length == 0) {*/}
-        {/*        navigate(Path.Plugins);*/}
-        {/*      } else {*/}
-        {/*        setShowPluginSelector(true);*/}
-        {/*      }*/}
-        {/*    }}*/}
-        {/*    text={Locale.Plugin.Name}*/}
-        {/*    icon={<PluginIcon />}*/}
-        {/*  />*/}
-        {/*)}*/}
-        {/*{showPluginSelector && (*/}
-        {/*  <Selector*/}
-        {/*    multiple*/}
-        {/*    defaultSelectedValue={chatStore.currentSession().mask?.plugin}*/}
-        {/*    items={pluginStore.getAll().map((item) => ({*/}
-        {/*      title: `${item?.title}@${item?.version}`,*/}
-        {/*      value: item?.id,*/}
-        {/*    }))}*/}
-        {/*    onClose={() => setShowPluginSelector(false)}*/}
-        {/*    onSelection={(s) => {*/}
-        {/*      chatStore.updateTargetSession(session, (session) => {*/}
-        {/*        session.mask.plugin = s as string[];*/}
-        {/*      });*/}
-        {/*    }}*/}
-        {/*  />*/}
-        {/*)}*/}
+        {showPlugins(currentProviderName, currentModel) && (
+          <ChatAction
+            onClick={() => {
+              if (pluginStore.getAll().length == 0) {
+                navigate(Path.Plugins);
+              } else {
+                setShowPluginSelector(true);
+              }
+            }}
+            text={Locale.Plugin.Name}
+            icon={<PluginIcon />}
+          />
+        )}
+        {showPluginSelector && (
+          <Selector
+            multiple
+            defaultSelectedValue={chatStore.currentSession().mask?.plugin}
+            items={pluginStore.getAll().map((item) => ({
+              title: `${item?.title}@${item?.version}`,
+              value: item?.id,
+            }))}
+            onClose={() => setShowPluginSelector(false)}
+            onSelection={(s) => {
+              chatStore.updateTargetSession(session, (session) => {
+                session.mask.plugin = s as string[];
+              });
+            }}
+          />
+        )}
 
         {!isMobileScreen && (
           <ChatAction
@@ -1715,38 +1713,38 @@ function _Chat() {
             </div>
           </div>
           <div className="window-actions">
-            {/*<div className="window-action-button">*/}
-            {/*  <IconButton*/}
-            {/*    icon={<ReloadIcon />}*/}
-            {/*    bordered*/}
-            {/*    title={Locale.Chat.Actions.RefreshTitle}*/}
-            {/*    onClick={() => {*/}
-            {/*      showToast(Locale.Chat.Actions.RefreshToast);*/}
-            {/*      chatStore.summarizeSession(true, session);*/}
-            {/*    }}*/}
-            {/*  />*/}
-            {/*</div>*/}
-            {/*{!isMobileScreen && (*/}
-            {/*  <div className="window-action-button">*/}
-            {/*    <IconButton*/}
-            {/*      icon={<RenameIcon />}*/}
-            {/*      bordered*/}
-            {/*      title={Locale.Chat.EditMessage.Title}*/}
-            {/*      aria={Locale.Chat.EditMessage.Title}*/}
-            {/*      onClick={() => setIsEditingMessage(true)}*/}
-            {/*    />*/}
-            {/*  </div>*/}
-            {/*)}*/}
-            {/*<div className="window-action-button">*/}
-            {/*  <IconButton*/}
-            {/*    icon={<ExportIcon />}*/}
-            {/*    bordered*/}
-            {/*    title={Locale.Chat.Actions.Export}*/}
-            {/*    onClick={() => {*/}
-            {/*      setShowExport(true);*/}
-            {/*    }}*/}
-            {/*  />*/}
-            {/*</div>*/}
+            <div className="window-action-button">
+              <IconButton
+                icon={<ReloadIcon />}
+                bordered
+                title={Locale.Chat.Actions.RefreshTitle}
+                onClick={() => {
+                  showToast(Locale.Chat.Actions.RefreshToast);
+                  chatStore.summarizeSession(true, session);
+                }}
+              />
+            </div>
+            {!isMobileScreen && (
+              <div className="window-action-button">
+                <IconButton
+                  icon={<RenameIcon />}
+                  bordered
+                  title={Locale.Chat.EditMessage.Title}
+                  aria={Locale.Chat.EditMessage.Title}
+                  onClick={() => setIsEditingMessage(true)}
+                />
+              </div>
+            )}
+            <div className="window-action-button">
+              <IconButton
+                icon={<ExportIcon />}
+                bordered
+                title={Locale.Chat.Actions.Export}
+                onClick={() => {
+                  setShowExport(true);
+                }}
+              />
+            </div>
             {showMaxIcon && (
               <div className="window-action-button">
                 <IconButton
