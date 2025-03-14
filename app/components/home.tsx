@@ -193,6 +193,7 @@ function Screen() {
           })}
         />
         <WindowContent>
+          {/*绑定路由*/}
           <Routes>
             <Route path={Path.Home} element={<Chat />} />
             <Route path={Path.NewChat} element={<NewChat />} />
